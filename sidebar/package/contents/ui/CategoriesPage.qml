@@ -129,7 +129,7 @@ Kirigami.ScrollablePage {
             }
         }
 
-        delegate: Kirigami.AbstractListItem {
+        delegate: CategoryItem {
             id: delegate
 
             Accessible.role: Accessible.ListItem
@@ -169,18 +169,15 @@ Kirigami.ScrollablePage {
             highlighted: categoryView.currentIndex == index
             Keys.onEnterPressed: clicked();
             Keys.onReturnPressed: clicked();
-            contentItem: CategoryItem {
-                showArrow: {
-                    if (!model.IsCategoryRole) {
-                        return false;
-                    }
-                    const modelIndex = delegate.ListView.view.model.index(index, 0)
-                    return delegate.ListView.view.model.rowCount(modelIndex) > 1
+            showArrow: {
+                if (!model.IsCategoryRole) {
+                    return false;
                 }
-                selected: delegate.highlighted || delegate.pressed
-                // Only indent subcategory icons in the search view
-                isSearching: searchField.text.length > 0
+                const modelIndex = delegate.ListView.view.model.index(index, 0)
+                return delegate.ListView.view.model.rowCount(modelIndex) > 1
             }
+            // Only indent subcategory icons in the search view
+            isSearching: searchField.text.length > 0
         }
     }
 
